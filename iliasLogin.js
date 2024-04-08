@@ -67,13 +67,12 @@ function clickButtonByClass(className, index = 0) {
   shibButton.click();
   console.log("button clicked");
 }
-
 function clickListElement(listClass, elementNumber) {
-  console.log("Replacing URL")
-  //setTimeout(function (){
-  
-  window.location.replace("https://ilias.studium.kit.edu/login.php?target=root_1&client_id=produktiv&cmd=force_login&lang=de");
-            
+  console.log("Checking URL")
+  let loginButton = document.querySelector(".il-maincontrols-metabar > li:nth-child(3) > a");
+  if (!loginButton) { return; }
+  if (!loginButton.href.includes("force_login")) { return; }
+  console.log("Replacing URL")   
 //}, 100);
   
   //tagNameListElement = "li"
