@@ -1,10 +1,14 @@
 /// script to go through the ilias and campus pages
 
+//Original by phillip > https://addons.mozilla.org/de/firefox/addon/iliaslogin/
+//Just a quick fix for Ilias 7, very dirty, don't know anything about javascript :)
+
 if (window.location.href.indexOf("ilias.studium.kit.edu/login") > -1) {
-  console.log("URL detected");
-  clickButtonById('f807');
+  console.log("TestSimple URL detected");
+  //clickButtonById('f807');
+  clickButtonById('button_shib_login');
 } else if (window.location.href.indexOf("campus.studium.kit.edu") > -1) {
-  console.log("URL detected");
+  console.log("Campus URL detected");
   setTimeout(function () { clickButtonByClass('shib-login shib-button'); }, 100); //
 } else if (window.location.href.indexOf("idp.scc.kit.edu") > -1) {
   // Careful, here chrome doesn't load the passwords in properly (Not exactly clear why)
@@ -16,9 +20,27 @@ if (window.location.href.indexOf("ilias.studium.kit.edu/login") > -1) {
   
   clickButtonById('sbmt'); // the actual button
 } else if (detectMoreComplexUrl()) {
-  console.log("URL detected");
-  clickListElement("ilTopBarNav", 10)
-}
+  console.log("Complex URL detected");
+ /// clickButtonByClass('btn btn-bulky',2);
+  clickListElement("il-maincontrols-metabar", 2)
+} else if (window.location.href.toLowerCase().indexOf("https://ilias.studium.kit.edu/login.php?client_id=produktiv&cmd=force_login&lang=") > -1) {
+    console.log("New login page")
+	clickButtonById('button_shib_login');
+  } else if (window.location.href.indexOf("https://ilias.studium.kit.edu/login.php?target=root_1&client_id=produktiv&cmd=force_login&lang=de") > -1) {
+  console.log("Button Page URL detected");
+  clickButtonById("button_shib_login");
+  console.log("Clicked Button");
+ // clickButtonByClass('btn btn-bulky',2);
+  //clickListElement("il-maincontrols-metabar", 2)
+  } else if (window.location.href.indexOf("https://ilias.studium.kit.edu/ilias.php?ref_id=1&cmdClass=ilrepositorygui&cmdNode=wx&baseClass=ilRepositoryGUI") > -1) {
+  window.location.replace("https://ilias.studium.kit.edu/ilias.php?baseClass=ilDashboardGUI&cmd=jumpToMemberships");
+  } else if (window.location.href.indexOf("https://www.google.com/intl/de_de/chrome/") > -1) {
+  console.log("Strange Website detected. Use Firefox!");
+  } else if (window.location.href.indexOf("https://www.mozilla.org/de/firefox/new/?redirect_source=firefox-com") > -1) {
+  console.log("Firefox site detected");
+  clickButtonByClass('mzp-c-sticky-promo-close', 0);
+  
+  }   
 
 function detectMoreComplexUrl() {
   // return false for an URL to a forum Link
@@ -32,7 +54,7 @@ function detectMoreComplexUrl() {
     console.log("Magazin URL detected, Extensions firering")
     return true
   }
-}
+}	
 
 function clickButtonById(id) {
   document.getElementById(id).click();
@@ -46,12 +68,18 @@ function clickButtonByClass(className, index = 0) {
   console.log("button clicked");
 }
 
-function clickListElement(listId, elementNumber) {
-  console.log("ClickListElementFct firing")
-  tagNameListElement = "li"
-  urlElement = "a"
-  var listElement = document.getElementById(listId).getElementsByTagName(tagNameListElement)[elementNumber].getElementsByTagName(urlElement)[0]
-  console.log("listElement URL: " + listElement + " about to be clicked")
-  listElement.click()
+function clickListElement(listClass, elementNumber) {
+  console.log("Replacing URL")
+  //setTimeout(function (){
+  
+  window.location.replace("https://ilias.studium.kit.edu/login.php?target=root_1&client_id=produktiv&cmd=force_login&lang=de");
+            
+//}, 100);
+  
+  //tagNameListElement = "li"
+  //urlElement = "a"
+  ///var listElement = document.getElementByClassName(listClass).getElementsByTagName(tagNameListElement)[elementNumber].getElementsByTagName(urlElement)[0]
+  //console.log("listElement URL: " + listElement + " about to be clicked")
+  //listElement.click()
   console.log("listElement URL clicked on")
 }
